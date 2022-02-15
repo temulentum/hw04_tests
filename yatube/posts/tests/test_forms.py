@@ -1,10 +1,8 @@
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 
-from ..forms import PostForm
 from ..models import Post
 
 
@@ -54,7 +52,8 @@ class TaskPostFormTests(TestCase):
         )
 
     def test_post_edit_changes_post(self):
-        """Проверка форм: редактирование должно изменять текст поста при сохранном id"""
+        """Проверка форм: редактирование должно изменять текст поста
+         при сохранном id"""
         form_data = {
             "text": "Отредактированный текст",
         }

@@ -1,5 +1,4 @@
 from re import template
-from urllib import response
 from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
 from django.utils import timezone
@@ -32,24 +31,28 @@ class TaskURLTests(TestCase):
         self.authorized_client.force_login(self.user)
 
     def test_url_create_exists_for_authorized(self):
-        """Проверяем, что авторизованному пользователю доступна страница создания поста"""
+        """Проверяем, что авторизованному пользователю
+           доступна страница создания поста"""
         response = self.authorized_client.get("/create/")
         self.assertEqual(response.status_code, 200, "Не могу написать пост")
 
     def test_url_create_redirects_unauthorized(self):
-        """Проверяем, что неавторизованный юзер перенаправляется вместо стр.создания поста на форму логина"""
+        """Проверяем, что неавторизованный юзер перенаправляется
+           вместо стр.создания поста на форму логина"""
         response = self.guest_client.get("/create/")
         self.assertRedirects(response, "/auth/login/?next=/create/")
 
     def test_url_post_edit_exists_for_authorized(self):
-        """Проверяем, что авторизованному юзеру доступно редактирование своих постов"""
+        """Проверяем, что авторизованному юзеру
+           доступно редактирование своих постов"""
         response = self.authorized_client.get(f"/posts/{self.post.id}/edit/")
         self.assertEqual(
             response.status_code, 200, "Не могу отредактировать пост"
         )
 
     def test_url_edit_redirects_unauthorized(self):
-        """Проверяем, что нельзя редактировать чужие посты - редирект на страницу поста"""
+        """Проверяем, что нельзя редактировать чужие
+           посты - редирект на страницу поста"""
         response = self.guest_client.get(f"/posts/{self.post.id}/edit/")
         self.assertRedirects(response, f"/posts/{self.post.id}/")
 

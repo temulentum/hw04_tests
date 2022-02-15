@@ -1,4 +1,3 @@
-from urllib import response
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -55,14 +54,16 @@ class TaskPagesTests(TestCase):
                 self.assertTemplateUsed(response, template)
 
     def test_index_context_is_posts_list(self):
-        """На главную страницу передаётся спиcок постов (Объект Paginator.page)"""
+        """На главную страницу передаётся спиcок постов
+        (Объект Paginator.page)"""
         response = self.guest_client.get(reverse("posts:index"))
         self.assertEqual(
             len(response.context.get("page_obj")), 1, "Не похоже на список!"
         )
 
     def test_group_list_recieves_list_filterd_by_group(self):
-        """group_list доллжен содержать список постов, отфильтрованных по группе"""
+        """group_list доллжен содержать список постов,
+        отфильтрованных по группе"""
         response = self.guest_client.get(
             reverse("posts:group_list", kwargs={"slug": self.group.slug})
         )
